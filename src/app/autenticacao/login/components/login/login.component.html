@@ -1,1 +1,22 @@
-<p>login works!</p>
+<form [formGroup]="form" fxLayoutAlign="center" novalidate>
+  <mat-list>
+    <mat-list-item>
+      <mat-form-field>
+        <input matInput placeholder="Username" formControlName="username">
+      </mat-form-field>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-form-field>
+        <input type="password" matInput placeholder="Senha" formControlName="password">
+      </mat-form-field>
+      <span matTooltip="Senha deve conter ao menos 6 caracteres">
+        <mat-icon>help</mat-icon>
+      </span>
+    </mat-list-item>
+      <mat-list-item fxLayoutAlign="center">
+        <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="logar()">
+          Logar
+        </button>
+      </mat-list-item>
+  </mat-list>
+</form>

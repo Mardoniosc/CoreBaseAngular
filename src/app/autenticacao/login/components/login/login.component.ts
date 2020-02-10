@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, Form } from '@angular/forms'
+import { Router } from '@angular/router'
+import { MatSnackBar } from '@angular/material';
 
 import { LoginService } from '../../services'
 import { Login } from '../../models'
@@ -10,24 +13,40 @@ import { Login } from '../../models'
 })
 export class LoginComponent implements OnInit {
 
-  login: Login
+  form: FormGroup
 
   constructor(
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    private router: Router,
     private loginService: LoginService
   ) { }
 
   ngOnInit() {
   }
 
+  criarForm(){
+    this.form = this.fb.group({
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    })
+  }
+
   logar(){
-    this.loginService.logar(this.login)
+
+    const login: Login = this.form.value;
+    this.loginService.logar(login)
       .subscribe(
         data => {
+          let msg = "Deu certo veja o logue"
           console.log(data)
+          this.snackBar.open( msg, "Sucesso", { duration: 3000 })
+
         },
         err => {
-          alert('Deu erro em alguma lugar veja o log')
+          let msg = 'Deu erro em alguma lugar veja o log'
           console.log(err.error.errrors.join(' '))
+          this.snackBar.open( msg, "Erro", { duration: 3000 })
         }
       )
   }
