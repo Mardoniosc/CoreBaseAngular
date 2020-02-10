@@ -13,10 +13,17 @@
         <mat-icon>help</mat-icon>
       </span>
     </mat-list-item>
-      <mat-list-item fxLayoutAlign="center">
-        <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="logar()">
+    <mat-list-item >
+        <button mat-raised-button color="primary"
+          [disabled]="form.invalid" (click)="logar()">
           Logar
         </button>
-      </mat-list-item>
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        <button mat-raised-button color="primary">
+          Cadastrar
+        </button>
+    </mat-list-item>
   </mat-list>
 </form>
