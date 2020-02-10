@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material';
 
 import { LoginService } from '../../services'
 import { Login } from '../../models'
+import { httpOptions } from '../../../../shared'
 
 @Component({
   selector: 'app-login',
@@ -23,8 +24,9 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    localStorage.removeItem('userToken')
+    this.criarForm()
   }
-
   criarForm(){
     this.form = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
@@ -33,20 +35,24 @@ export class LoginComponent implements OnInit {
   }
 
   logar(){
-
     const login: Login = this.form.value;
-    this.loginService.logar(login)
+    this.loginService.logar(login, httpOptions)
       .subscribe(
         data => {
-          let msg = "Deu certo veja o logue"
-          console.log(data)
+          localStorage.setItem('userToken', JSON.stringify(data))
+          let msg = "Logou sem erro"
           this.snackBar.open( msg, "Sucesso", { duration: 3000 })
 
         },
         err => {
-          let msg = 'Deu erro em alguma lugar veja o log'
-          console.log(err.error.errrors.join(' '))
-          this.snackBar.open( msg, "Erro", { duration: 3000 })
+          if (err.error.error ===  'invalid_grant'){
+            let msg = 'usuario ou senha incorretos'
+            this.snackBar.open( msg, "Erro", { duration: 3000 })
+          }else{
+            let msg = 'Deu erro em alguma lugar veja o log'
+            this.snackBar.open( msg, "Erro", { duration: 3000 })
+          }
+          console.log(err)
         }
       )
   }

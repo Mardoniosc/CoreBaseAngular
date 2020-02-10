@@ -13,13 +13,14 @@ export class LoginService {
     private http: HttpClient
   ) { }
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  }
 
-  logar(login: Login): Observable<any> {
+  logar(login, httpOptions): Observable<any> {
+    let grant_type = 'password';
+    let username = login.username;
+    let password = login.password;
+    let body = `grant_type=${grant_type}&username=${username}&password=${password}`;
     return this.http.post(env.baseURL + this.PATH,
-        JSON.stringify(login),
-        this.httpOptions)
+        body,
+        httpOptions)
   }
 }
