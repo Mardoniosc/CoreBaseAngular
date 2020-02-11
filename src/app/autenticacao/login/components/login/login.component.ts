@@ -34,15 +34,20 @@ export class LoginComponent implements OnInit {
     })
   }
 
+  cadastrar(){
+    const mensagem = "Em desenvolvimento..."
+    this.snackBar.open(mensagem, "Info", { duration: 5000 })
+  }
+
   logar(){
     const login: Login = this.form.value;
     this.loginService.logar(login, httpOptions)
       .subscribe(
         data => {
-          localStorage.setItem('userToken', JSON.stringify(data))
-          let msg = "Logou sem erro"
+          localStorage.setItem('userToken', JSON.stringify(data.access_token))
+          let msg = "Bem-vindo!"
           this.snackBar.open( msg, "Sucesso", { duration: 3000 })
-
+          this.router.navigate(['/admin'])
         },
         err => {
           if (err.error.error ===  'invalid_grant'){
