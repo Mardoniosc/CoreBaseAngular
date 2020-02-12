@@ -41,7 +41,7 @@ export class CadastroComponent implements OnInit {
       .subscribe(
         data => {
           let msg = "Usuaŕio cadastrado com sucesso!"
-          this.snackBar.open(msg, "Erro", { duration: 4000 })
+          this.snackBar.open(msg, "Sucesso", { duration: 4000 })
           this.router.navigate(['/admin'])
         },
         err => {

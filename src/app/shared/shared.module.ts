@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CpfPipe } from './pipes';
-import { MascaraDirective } from './directives/mascara.directive';
+import { MascaraDirective } from './directives';
 
 @NgModule({
   declarations: [

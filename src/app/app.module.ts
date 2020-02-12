@@ -13,6 +13,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { TokenInterceptor } from './shared';
 import { SharedModule } from './shared/shared.module'
 
+import {
+  MatToolbarModule,
+  MatIconModule
+} from '@angular/material'
+
+import { FlexLayoutModule } from '@angular/flex-layout'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +33,9 @@ import { SharedModule } from './shared/shared.module'
     AdministradorModule,
     AdministradorRoutingModule,
     SharedModule,
+    MatToolbarModule,
+    MatIconModule,
+    FlexLayoutModule,
 
     AppRoutingModule,
 
