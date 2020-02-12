@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario } from 'src/app/shared';
+import { Usuario, CpfValidator } from 'src/app/shared';
 import { UsuariosService } from 'src/app/shared/services';
 import { Router, ActivatedRoute } from '@angular/router'
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
@@ -12,11 +12,14 @@ import { MatSnackBar } from '@angular/material';
 })
 export class AtualizacaoComponent implements OnInit {
 
+  usuarioCarregado = false
   form: FormGroup
   hide = true
 
   usuario = {} as Usuario
   userId: string
+
+  teste: string = "Mardonio"
 
   constructor(
     private fb: FormBuilder,
@@ -27,25 +30,29 @@ export class AtualizacaoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.gerarForm()
     this.userId = this.route.snapshot.paramMap.get('userId');
     this.buscarUserId()
-    this.gerarForm()
   }
 
   gerarForm(){
     this.form = this.fb.group({
-      nome: ['',[Validators.required]],
-      email: ['',[Validators.required, Validators.email]],
+      nome: ['' ,[Validators.required]],
+      email: ['' ,[Validators.required, Validators.email]],
       login: ['',[Validators.required, Validators.minLength(4)]],
-      cpf: ['',[Validators.required, Validators.minLength(11)]],
+      cpf: ['',[Validators.required, CpfValidator]],
       senha: ['',[Validators.required, Validators.minLength(6)]],
     })
   }
 
   atualizar(){
+    if(this.form.invalid){
+      let msg = "Formulário com campos inválidos favor verificar!"
+      this.snackBar.open(msg, "Aviso", { duration: 4000 })
+      return
+    }
     const usuario: Usuario = this.form.value;
 
-    console.log(this.usuario)
     this.usuarioService.updateUser(usuario, this.usuario.id)
       .subscribe(
         data => {
@@ -55,7 +62,6 @@ export class AtualizacaoComponent implements OnInit {
         },
         err => {
           let msg = "Erro ao atualizar dados do usuário"
-          console.log(err)
           this.snackBar.open(msg, "Erro", { duration: 4000 })
         }
       )
@@ -66,8 +72,14 @@ export class AtualizacaoComponent implements OnInit {
       .subscribe(
         data => {
           this.usuario = data
-          console.log(this.usuario)
-          console.log()
+          this.form.setValue( {
+            nome: this.usuario.nome,
+            email: this.usuario.email,
+            cpf: this.usuario.cpf,
+            login: this.usuario.login,
+            senha: this.usuario.senha,
+          } )
+          this.usuarioCarregado = true
         },
         err => {
           if(err.status === 500 ){

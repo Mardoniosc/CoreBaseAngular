@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
-import { UsuariosService, Usuario } from 'src/app/shared';
+import { UsuariosService, Usuario, CpfValidator } from 'src/app/shared';
 
 @Component({
   selector: 'app-cadastro',
@@ -29,7 +29,7 @@ export class CadastroComponent implements OnInit {
       nome: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       login: ['', [Validators.required, Validators.minLength(4)]],
-      cpf: ['', [Validators.required, Validators.minLength(11)]],
+      cpf: ['', [Validators.required, CpfValidator]],
       senha: ['', [Validators.required, Validators.minLength(6)]],
     })
   }

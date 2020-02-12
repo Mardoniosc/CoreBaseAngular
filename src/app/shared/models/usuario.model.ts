@@ -1,12 +1,17 @@
-export interface Usuario {
-  id: number
-  cpf: string
-  criado: Date
-  email: string
-  imagem: string
-  login: string
-  nome: string
-  senha: string
-  status: number
-  perfil_id: number
+export class Usuario {
+  constructor(
+  public id: number,
+  public cpf: string,
+  public criado: Date,
+  public email: string,
+  public imagem: string,
+  public login: string,
+  public nome: string,
+  public senha: string,
+  public status: number,
+  public perfil_id: number
+  ){
+
+  }
+
 }
