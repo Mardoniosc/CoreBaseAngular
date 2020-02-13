@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('userToken', JSON.stringify(data.access_token))
           let msg = "Bem-vindo!"
           this.snackBar.open( msg, "Sucesso", { duration: 3000 })
-          this.router.navigate(['/admin'])
+          this.router.navigate(['/operador'])
         },
         err => {
           if (err.error.error ===  'invalid_grant'){

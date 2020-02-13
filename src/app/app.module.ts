@@ -13,6 +13,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { TokenInterceptor } from './shared';
 import { SharedModule } from './shared/shared.module'
 
+import { OperadorModule, OperadorRoutingModule } from './operador'
+
 import {
   MatToolbarModule,
   MatIconModule
@@ -36,6 +38,8 @@ import { FlexLayoutModule } from '@angular/flex-layout'
     MatToolbarModule,
     MatIconModule,
     FlexLayoutModule,
+    OperadorModule,
+    OperadorRoutingModule,
 
     AppRoutingModule,
 
