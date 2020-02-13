@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Usuario, CpfValidator } from 'src/app/shared';
-import { UsuariosService } from 'src/app/shared/services';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Usuario, CpfValidator, Perfil } from 'src/app/shared';
+import { UsuariosService, PerfilService } from 'src/app/shared/services';
 import { Router, ActivatedRoute } from '@angular/router'
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatSelect } from '@angular/material';
 
 @Component({
   selector: 'app-atualizacao',
@@ -16,23 +16,28 @@ export class AtualizacaoComponent implements OnInit {
   form: FormGroup
   hide = true
 
+  perfils: Perfil[]
+  @ViewChild(MatSelect, { static: true }) matSelect: MatSelect
+  perfilUser: Perfil
+  perfil_id: number
+
   usuario = {} as Usuario
   userId: string
-
-  teste: string = "Mardonio"
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private router: Router,
-    private usuarioService: UsuariosService
+    private usuarioService: UsuariosService,
+    private perfilService: PerfilService
   ) { }
 
   ngOnInit() {
     this.gerarForm()
     this.userId = this.route.snapshot.paramMap.get('userId');
     this.buscarUserId()
+    this.obterPerfils()
   }
 
   gerarForm(){
@@ -42,6 +47,7 @@ export class AtualizacaoComponent implements OnInit {
       login: ['',[Validators.required, Validators.minLength(4)]],
       cpf: ['',[Validators.required, CpfValidator]],
       senha: ['',[Validators.required, Validators.minLength(6)]],
+      perfil: ['', [Validators.required]]
     })
   }
 
@@ -51,9 +57,10 @@ export class AtualizacaoComponent implements OnInit {
       this.snackBar.open(msg, "Aviso", { duration: 4000 })
       return
     }
-    const usuario: Usuario = this.form.value;
+    this.usuario = this.form.value;
+    this.usuario.perfil = this.perfilUser
 
-    this.usuarioService.updateUser(usuario, this.usuario.id)
+    this.usuarioService.updateUser(this.usuario, this.userId)
       .subscribe(
         data => {
           let msg = "Usuario atualizado com sucesso!"
@@ -63,6 +70,39 @@ export class AtualizacaoComponent implements OnInit {
         err => {
           let msg = "Erro ao atualizar dados do usuário"
           this.snackBar.open(msg, "Erro", { duration: 4000 })
+          console.log(err)
+        }
+      )
+  }
+
+  perfilSelecionado(){
+    if(this.matSelect.selected) {
+      this.perfil_id = this.matSelect.selected['value']
+      this.perfilService.getPerfilId(this.perfil_id)
+        .subscribe(
+          data => {
+            this.perfilUser = data
+            console.log(this.perfilUser)
+          },
+          err => {
+            console.log('Erro ao buscaar perfil selecionado')
+          }
+        )
+    }else {
+      return
+    }
+  }
+
+  obterPerfils(){
+    this.perfilService.getAllPerfils()
+      .subscribe(
+        data => {
+          this.perfils = data
+        },
+        err => {
+          let msg = 'Erro ao obter perfils cadastrados'
+          this.snackBar.open(msg, "Erro", { duration: 4000 })
+          console.log(err)
         }
       )
   }
@@ -72,14 +112,16 @@ export class AtualizacaoComponent implements OnInit {
       .subscribe(
         data => {
           this.usuario = data
+          localStorage.setItem('dataUser', JSON.stringify(this.usuario))
+          console.log(this.usuario)
           this.form.setValue( {
             nome: this.usuario.nome,
             email: this.usuario.email,
             cpf: this.usuario.cpf,
             login: this.usuario.login,
             senha: this.usuario.senha,
+            perfil: this.usuario.perfil !== null ? this.usuario.perfil['id'] : null,
           } )
-          this.usuarioCarregado = true
         },
         err => {
           if(err.status === 500 ){

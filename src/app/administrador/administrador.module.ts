@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms'
 
 import {
   MatInputModule,
+  MatSelectModule,
   MatButtonModule,
   MatListModule,
   MatTooltipModule,
@@ -27,7 +28,7 @@ import {
   MatPaginatorIntl,
 } from '@angular/material'
 
-import { UsuariosService } from 'src/app/shared/services'
+import { UsuariosService, PerfilService } from 'src/app/shared/services'
 import { SharedModule } from 'src/app/shared/shared.module'
 
 
@@ -46,6 +47,7 @@ import { SharedModule } from 'src/app/shared/shared.module'
     MatInputModule,
     MatButtonModule,
     MatListModule,
+    MatSelectModule,
     MatTooltipModule,
     MatIconModule,
     MatSnackBarModule,
@@ -60,6 +62,7 @@ import { SharedModule } from 'src/app/shared/shared.module'
   ],
   providers: [
     UsuariosService,
+    PerfilService,
     MatPaginatorIntl,
   ],
   entryComponents: [ ConfirmarDialog ]

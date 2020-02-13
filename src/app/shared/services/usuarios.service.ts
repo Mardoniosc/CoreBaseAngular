@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs'
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { environment as env } from 'src/environments/environment'
-import { httpOptions } from '../headers.api.config'
 import { Usuario } from '../models';
 
 @Injectable()

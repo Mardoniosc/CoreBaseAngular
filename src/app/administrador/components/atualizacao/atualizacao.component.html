@@ -22,13 +22,26 @@
     </mat-list-item>
     <mat-list-item>
       <mat-form-field>
+        <mat-select placeholder="Perfil"
+        formControlName="perfil"
+        [(value)]="perfil_id"
+        (selectionChange)="perfilSelecionado()">
+        <mat-option
+          *ngFor="let perfil of perfils"
+          [value]="perfil.id">
+          {{ perfil.nome }}
+        </mat-option>
+      </mat-select>
+      </mat-form-field>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-form-field>
         <input placeholder="Senha" matInput [type]="hide ? 'password' : 'text'" formControlName="senha">
     <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
     <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
       </mat-form-field>
     </mat-list-item>
-
     <mat-list-item fxLayoutAlign="center">
     <button mat-raised-button color="primary"
       (click)="atualizar()">
