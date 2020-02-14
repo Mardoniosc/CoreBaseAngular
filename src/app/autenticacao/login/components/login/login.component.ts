@@ -5,7 +5,13 @@ import { MatSnackBar } from '@angular/material';
 
 import { LoginService } from '../../services'
 import { Login } from '../../models'
-import { httpOptions, Usuario, UsuariosService } from '../../../../shared'
+import {
+  httpOptions,
+  Usuario,
+  UsuariosService,
+  codigoCrypt,
+  CryptoService
+} from 'src/app/shared'
 
 @Component({
   selector: 'app-login',
@@ -24,7 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private router: Router,
     private loginService: LoginService,
-    private usuarioService: UsuariosService
+    private usuarioService: UsuariosService,
+    private cryptoService: CryptoService
   ) { }
 
   ngOnInit() {
@@ -91,6 +98,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   logarBanco(){
     this.login = this.form.value
+    this.login.password = this.cryptoService.encrypt(this.login.password, codigoCrypt)
     this.usuarioService.getAllUsers()
       .subscribe(
         data => {

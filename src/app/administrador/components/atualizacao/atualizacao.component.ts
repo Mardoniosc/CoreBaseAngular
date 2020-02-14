@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Usuario, CpfValidator, Perfil } from 'src/app/shared';
-import { UsuariosService, PerfilService } from 'src/app/shared/services';
+import { Usuario, CpfValidator, Perfil, codigoCrypt } from 'src/app/shared';
+import { UsuariosService, PerfilService, CryptoService } from 'src/app/shared/services';
 import { Router, ActivatedRoute } from '@angular/router'
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { MatSnackBar, MatSelect } from '@angular/material';
@@ -30,7 +30,8 @@ export class AtualizacaoComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private usuarioService: UsuariosService,
-    private perfilService: PerfilService
+    private perfilService: PerfilService,
+    private cryptoService: CryptoService
   ) { }
 
   ngOnInit() {
@@ -59,7 +60,7 @@ export class AtualizacaoComponent implements OnInit {
     }
     this.usuario = this.form.value;
     this.usuario.perfil = this.perfilUser
-
+    this.usuario.senha = this.cryptoService.encrypt(this.usuario.senha, codigoCrypt)
     this.usuarioService.updateUser(this.usuario, this.userId)
       .subscribe(
         data => {
@@ -112,6 +113,8 @@ export class AtualizacaoComponent implements OnInit {
       .subscribe(
         data => {
           this.usuario = data
+          console.log(this.usuario.senha)
+          this.usuario.senha = this.cryptoService.decrypt(this.usuario.senha, codigoCrypt)
           localStorage.setItem('dataUser', JSON.stringify(this.usuario))
           console.log(this.usuario)
           this.form.setValue( {

@@ -28,7 +28,7 @@ import {
   MatPaginatorIntl,
 } from '@angular/material'
 
-import { UsuariosService, PerfilService } from 'src/app/shared/services'
+import { UsuariosService, PerfilService, CryptoService } from 'src/app/shared/services'
 import { SharedModule } from 'src/app/shared/shared.module'
 
 
@@ -64,6 +64,7 @@ import { SharedModule } from 'src/app/shared/shared.module'
     UsuariosService,
     PerfilService,
     MatPaginatorIntl,
+    CryptoService,
   ],
   entryComponents: [ ConfirmarDialog ]
 })

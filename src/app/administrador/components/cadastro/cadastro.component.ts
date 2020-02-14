@@ -2,7 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar, MatSelect } from '@angular/material';
-import { UsuariosService, Usuario, CpfValidator, PerfilService, Perfil } from 'src/app/shared';
+import {
+  UsuariosService,
+  Usuario,
+  CpfValidator,
+  PerfilService,
+  Perfil,
+  CryptoService,
+  codigoCrypt
+} from 'src/app/shared';
 
 @Component({
   selector: 'app-cadastro',
@@ -12,7 +20,7 @@ import { UsuariosService, Usuario, CpfValidator, PerfilService, Perfil } from 's
 export class CadastroComponent implements OnInit {
 
   form: FormGroup
-
+  hide = true
   usuario = {} as Usuario
 
   perfils: Perfil[]
@@ -26,7 +34,8 @@ export class CadastroComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private usuarioService: UsuariosService,
-    private perfilService: PerfilService
+    private perfilService: PerfilService,
+    private cryptoService: CryptoService
   ) { }
 
   ngOnInit() {
@@ -47,6 +56,9 @@ export class CadastroComponent implements OnInit {
   cadastrar(){
     this.usuario = this.form.value;
     this.usuario.perfil = this.perfilUser
+    this.usuario.senha = this.cryptoService.encrypt(this.usuario.senha, codigoCrypt)
+    this.usuario.criado = new Date()
+    console.log(this.usuario.criado)
     this.usuarioService.createUser(this.usuario)
       .subscribe(
         data => {
