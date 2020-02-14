@@ -8,13 +8,19 @@ import { Login } from '../models'
 export class LoginService {
 
   private readonly PATH: string = '/token'
+  private readonly PATHUSERS: string = '/usuarios'
 
   constructor(
     private http: HttpClient
   ) { }
 
 
-  logar(login, httpOptions): Observable<any> {
+  /**
+   *
+   * @param login Login do WSO2
+   * @param httpOptions
+   */
+  logarWSO2(login, httpOptions): Observable<any> {
     let grant_type = 'password';
     let username = login.username;
     let password = login.password;
