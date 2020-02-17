@@ -1,0 +1,8 @@
+.card-dashboard {
+  max-width: 400px;
+}
+
+.header-image-padrao {
+  background-image: url('../../../../assets/img/admin.png');
+  background-size: cover;
+}

@@ -14,10 +14,11 @@ import { TokenInterceptor } from './shared';
 import { SharedModule } from './shared/shared.module'
 
 import { OperadorModule, OperadorRoutingModule } from './operador'
+import { ServidorModule, ServidorRoutingModule } from './servidor'
 
 import {
   MatToolbarModule,
-  MatIconModule
+  MatIconModule,
 } from '@angular/material'
 
 import { FlexLayoutModule } from '@angular/flex-layout'
@@ -40,6 +41,8 @@ import { FlexLayoutModule } from '@angular/flex-layout'
     FlexLayoutModule,
     OperadorModule,
     OperadorRoutingModule,
+    ServidorModule,
+    ServidorRoutingModule,
 
     AppRoutingModule,
 

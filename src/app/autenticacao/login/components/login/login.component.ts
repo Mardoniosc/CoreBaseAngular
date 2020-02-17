@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.router.navigate(['/admin'])
         break
       case 'Servidor':
-        this.router.navigate(['/operador'])
+        this.router.navigate(['/servidor'])
         break
       case 'Operador':
         this.router.navigate(['/operador'])

@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
-
-import {  HomeComponent } from './components'
+import { ServidorComponent } from './components'
 import { DashboardComponent } from '../shared'
 
-export const homeRoutes: Routes = [
+export const servidorRoutes: Routes = [
   {
-    path: 'operador',
-    component: HomeComponent,
+    path: 'servidor',
+    component: ServidorComponent,
     children:[
       { path: '', component: DashboardComponent }
     ]
@@ -16,12 +15,12 @@ export const homeRoutes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forChild(homeRoutes)
+    RouterModule.forChild(servidorRoutes)
   ],
   exports: [
     RouterModule
   ]
 })
 
-export class OperadorRoutingModule {
+export class ServidorRoutingModule {
 }
