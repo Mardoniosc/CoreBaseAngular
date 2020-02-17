@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar, MatSelect } from '@angular/material';
@@ -11,13 +11,16 @@ import {
   CryptoService,
   codigoCrypt
 } from 'src/app/shared';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cadastro',
   templateUrl: './cadastro.component.html',
   styleUrls: ['./cadastro.component.css']
 })
-export class CadastroComponent implements OnInit {
+export class CadastroComponent implements OnInit, OnDestroy {
+
+  private subscriptions: Subscription[] = []
 
   form: FormGroup
   hide = true
@@ -42,6 +45,12 @@ export class CadastroComponent implements OnInit {
     this.gerarForm()
     this.obterPerfils()
   }
+
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => subscription.unsubscribe())
+
+  }
+
   gerarForm(){
     this.form = this.fb.group({
       nome: ['', [Validators.required]],
@@ -59,7 +68,7 @@ export class CadastroComponent implements OnInit {
     this.usuario.senha = this.cryptoService.encrypt(this.usuario.senha, codigoCrypt)
     this.usuario.criado = new Date()
     console.log(this.usuario.criado)
-    this.usuarioService.createUser(this.usuario)
+    this.subscriptions.push(this.usuarioService.createUser(this.usuario)
       .subscribe(
         data => {
           let msg = "Usuaŕio cadastrado com sucesso!"
@@ -70,13 +79,13 @@ export class CadastroComponent implements OnInit {
           let msg = "Erro ao cadastrar usuário"
           this.snackBar.open(msg, "Erro", { duration: 4000 })
         }
-      )
+      ))
   }
 
   perfilSelecionado(){
     if(this.matSelect.selected) {
       this.perfil_id = this.matSelect.selected['value']
-      this.perfilService.getPerfilId(this.perfil_id)
+      this.subscriptions.push(this.perfilService.getPerfilId(this.perfil_id)
         .subscribe(
           data => {
             this.perfilUser = data
@@ -85,14 +94,14 @@ export class CadastroComponent implements OnInit {
             let msg = 'Erro ao obter perfils selecionado'
             this.snackBar.open(msg, "Erro", { duration: 4000 })
           }
-        )
+        ))
     }else {
       return
     }
   }
 
   obterPerfils(){
-    this.perfilService.getAllPerfils()
+    this.subscriptions.push(this.perfilService.getAllPerfils()
       .subscribe(
         data => {
           this.perfils = data
@@ -101,6 +110,6 @@ export class CadastroComponent implements OnInit {
           let msg = 'Erro ao obter perfils cadastrados'
           this.snackBar.open(msg, "Erro", { duration: 4000 })
         }
-      )
+      ))
   }
 }

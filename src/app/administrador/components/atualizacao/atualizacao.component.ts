@@ -1,16 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Usuario, CpfValidator, Perfil, codigoCrypt } from 'src/app/shared';
 import { UsuariosService, PerfilService, CryptoService } from 'src/app/shared/services';
 import { Router, ActivatedRoute } from '@angular/router'
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { MatSnackBar, MatSelect } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-atualizacao',
   templateUrl: './atualizacao.component.html',
   styleUrls: ['./atualizacao.component.css']
 })
-export class AtualizacaoComponent implements OnInit {
+export class AtualizacaoComponent implements OnInit, OnDestroy {
+
+  private subscriptions: Subscription[] = []
 
   usuarioCarregado = false
   form: FormGroup
@@ -41,6 +44,11 @@ export class AtualizacaoComponent implements OnInit {
     this.obterPerfils()
   }
 
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => subscription.unsubscribe())
+
+  }
+
   gerarForm(){
     this.form = this.fb.group({
       nome: ['' ,[Validators.required]],
@@ -61,7 +69,7 @@ export class AtualizacaoComponent implements OnInit {
     this.usuario = this.form.value;
     this.usuario.perfil = this.perfilUser
     this.usuario.senha = this.cryptoService.encrypt(this.usuario.senha, codigoCrypt)
-    this.usuarioService.updateUser(this.usuario, this.userId)
+    this.subscriptions.push(this.usuarioService.updateUser(this.usuario, this.userId)
       .subscribe(
         data => {
           let msg = "Usuario atualizado com sucesso!"
@@ -73,13 +81,13 @@ export class AtualizacaoComponent implements OnInit {
           this.snackBar.open(msg, "Erro", { duration: 4000 })
           console.log(err)
         }
-      )
+      ))
   }
 
   perfilSelecionado(){
     if(this.matSelect.selected) {
       this.perfil_id = this.matSelect.selected['value']
-      this.perfilService.getPerfilId(this.perfil_id)
+      this.subscriptions.push(this.perfilService.getPerfilId(this.perfil_id)
         .subscribe(
           data => {
             this.perfilUser = data
@@ -88,14 +96,14 @@ export class AtualizacaoComponent implements OnInit {
           err => {
             console.log('Erro ao buscaar perfil selecionado')
           }
-        )
+        ))
     }else {
       return
     }
   }
 
   obterPerfils(){
-    this.perfilService.getAllPerfils()
+    this.subscriptions.push(this.perfilService.getAllPerfils()
       .subscribe(
         data => {
           this.perfils = data
@@ -105,11 +113,11 @@ export class AtualizacaoComponent implements OnInit {
           this.snackBar.open(msg, "Erro", { duration: 4000 })
           console.log(err)
         }
-      )
+      ))
   }
 
   buscarUserId(){
-    this.usuarioService.getUserId(this.userId)
+    this.subscriptions.push(this.usuarioService.getUserId(this.userId)
       .subscribe(
         data => {
           this.usuario = data
@@ -137,6 +145,6 @@ export class AtualizacaoComponent implements OnInit {
             this.router.navigate(['/admin'])
           }
         }
-      )
+      ))
   }
 }

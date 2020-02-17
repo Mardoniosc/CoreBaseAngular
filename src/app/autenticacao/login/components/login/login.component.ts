@@ -12,6 +12,7 @@ import {
   codigoCrypt,
   CryptoService
 } from 'src/app/shared'
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,8 @@ import {
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy {
+
+  private subscriptions: Subscription[] = []
 
   usuarios: Usuario[]
   usuario = {} as Usuario
@@ -39,7 +42,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.criarForm()
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe())
+  }
 
   criarForm(){
     this.form = this.fb.group({
@@ -59,7 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     // const login: Login = this.form.value;
     console.log('Logando no wso2')
     const login = { username: "tecnisys", password: "tecnisys" }
-    this.loginService.logarWSO2(login, httpOptions)
+    this.subscriptions.push(this.loginService.logarWSO2(login, httpOptions)
       .subscribe(
         data => {
           localStorage.setItem('refreshToken', JSON.stringify(data.refresh_token))
@@ -77,7 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           }
           console.log(err)
         }
-      )
+      ))
   }
 
   direcionaDeAcordoComPerfil(perfil){
@@ -99,7 +104,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   logarBanco(){
     this.login = this.form.value
     this.login.password = this.cryptoService.encrypt(this.login.password, codigoCrypt)
-    this.usuarioService.getAllUsers()
+    this.subscriptions.push(this.usuarioService.getAllUsers()
       .subscribe(
         data => {
           this.usuarios = data
@@ -130,7 +135,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.snackBar.open(msg, "Erro", { duration: 3000 })
         }
 
-      )
+      ))
   }
 
   clearLocalStorange(){

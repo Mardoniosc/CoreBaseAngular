@@ -10,7 +10,7 @@ import {
   MatPaginator
 } from '@angular/material'
 
-import { Observable } from 'rxjs'
+import { Subscription } from 'rxjs'
 
 import { Usuario } from 'src/app/shared/models';
 import { UsuariosService } from 'src/app/shared/services';
@@ -21,6 +21,8 @@ import { UsuariosService } from 'src/app/shared/services';
   styleUrls: ['./listagem.component.css']
 })
 export class ListagemComponent implements OnInit {
+
+  private subscriptions: Subscription[] = []
 
   dataSource: MatTableDataSource<Usuario>
   colunas: string[] = ['nome', 'email', 'login', 'cpf', 'acao']
@@ -41,8 +43,12 @@ export class ListagemComponent implements OnInit {
     this.listarTodosUsuarios()
   }
 
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => subscription.unsubscribe())
+  }
+
   listarTodosUsuarios(){
-    this.usuariosService.getAllUsers()
+    this.subscriptions.push(this.usuariosService.getAllUsers()
       .subscribe(
         data => {
           this.usuarios = data
@@ -59,11 +65,11 @@ export class ListagemComponent implements OnInit {
             this.snackBar.open(msg, "Erro", { duration: 5000 })
           }
         }
-      )
+      ))
   }
 
   removerDialog(usuarioID: string ) {
-    this.usuariosService.getUserId(usuarioID)
+    this.subscriptions.push(this.usuariosService.getUserId(usuarioID)
       .subscribe(
         data => {
           this.usuario = data;
@@ -80,12 +86,12 @@ export class ListagemComponent implements OnInit {
           let msg = "Erro ao tentar excluir usuário selecionado"
           this.snackBar.open(msg, "Erro", { duration: 5000 })
         }
-      )
+      ))
 
   }
 
   removerUsuario(id){
-    this.usuariosService.deleteUser(id)
+    this.subscriptions.push(this.usuariosService.deleteUser(id)
       .subscribe(
         data => {
           let msg = "Usuário excluído com sucesso!"
@@ -96,7 +102,7 @@ export class ListagemComponent implements OnInit {
           let msg = "Erro ao buscar informações do usuário selecionado";
           this.snackBar.open(msg, "Erro", { duration: 4000 })
         }
-      )
+      ))
   }
 }
 
