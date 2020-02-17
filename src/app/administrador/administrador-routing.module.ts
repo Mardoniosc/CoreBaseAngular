@@ -7,13 +7,16 @@ import {
   AdministradorComponent
 } from './components'
 
+import { DashboardComponent } from '../shared'
+
 export const routes: Routes = [
   {
     path: 'admin',
     component: AdministradorComponent,
     children:[
-      { path: '', component: ListagemComponent },
+      { path: '', component: DashboardComponent },
       { path: 'cadastro', component: CadastroComponent },
+      { path: 'listagem', component: ListagemComponent },
       { path: 'atualizacao/:userId', component: AtualizacaoComponent }
     ]
   }
