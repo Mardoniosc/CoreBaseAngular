@@ -1,0 +1,22 @@
+<app-page-header [heading]="'Perfil'" [icon]="'fa-users'"></app-page-header>
+<div class="card mb-3">
+    <div class="card-header">
+        <p>Formulário de Cadastro de Perfil</p>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="form" novalidate>
+            <input type="text" class="form-control" formControlName="nome" placeholder="Nome do perfil">
+            <small *ngIf="form.get('nome').valid && form.get('nome').touched" class="form-text text-success" >ok</small>
+                    <small *ngIf="!form.get('nome').valid && form.get('nome').touched"class="form-text text-danger" >Nome perfil é obrigatório</small>
+            <br><br>
+            <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="cadastrar()">
+                Cadastrar
+            </button>
+            &nbsp;
+            <a mat-button color="primary" routerLink="/perfil/pesquisar">
+                Voltar
+            </a>
+        </form>
+    </div>
+</div>
+

@@ -1,31 +1,36 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import {MatCardModule} from '@angular/material/card';
-
-import { CpfPipe } from './pipes';
+import { CpfPipe, PerfilstatusPipe } from './pipes';
 import { MascaraDirective } from './directives';
+
+// Serviços
 import {
-  ErrorComponent404,
-  ErrorComponent500,
-  DashboardComponent
-} from './components';
+  PerfilService,
+  PermissaoService,
+  UsuariosService,
+  PerfilPermissaoService
+} from './services'
 
 @NgModule({
   declarations: [
     CpfPipe,
-    MascaraDirective,
-    ErrorComponent404,
-    ErrorComponent500,
-    DashboardComponent,
+    PerfilstatusPipe,
+    MascaraDirective
   ],
   imports: [
     CommonModule,
-    MatCardModule
   ],
   exports:[
    CpfPipe,
+   PerfilstatusPipe,
    MascaraDirective,
+  ],
+  providers: [
+    PerfilService,
+    PermissaoService,
+    UsuariosService,
+    PerfilPermissaoService
   ]
 })
 export class SharedModule { }

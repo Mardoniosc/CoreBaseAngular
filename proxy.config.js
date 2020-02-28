@@ -1,9 +1,9 @@
 const proxy = [
-  {
-    context: '/api',
-    target: 'http://localhost:8080',
-    pathRewrite: {'^/api' : ''}
-  }
-];
+    {
+      context: '/api',
+      target: 'https://services.labtecnisys.com.br',
+      pathRewrite: {'^/api' : ''}
+    }
+  ];
 
-module.exports = proxy;
+  module.exports = proxy;

@@ -1,4 +1,4 @@
-export interface Perfil {
+export class Perfil {
   id: number
   nome: string
 }

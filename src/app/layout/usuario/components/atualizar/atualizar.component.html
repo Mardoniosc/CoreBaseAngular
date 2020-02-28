@@ -1,0 +1,84 @@
+<app-page-header [heading]="'Usuario'" [icon]="'fa-user'"></app-page-header>
+<div class="card mb-3">
+    <div class="card-header">
+        <p>Formulário de Atualização de Usuário</p>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="form" novalidate>
+            <div class="form-group row">
+                <label class="col-2 col-form-label">CPF: </label>
+                <div class="col-10 form-group has-success">
+                    <input class="form-control" placeholder="CPF" formControlName="cpf" mascara="999.999.999-99">
+                    <!-- <input class="form-control" placeholder="CPF" formControlName="cpf" mascara="999.999.999-99"> -->
+                    <small *ngIf="form.get('cpf').valid && form.get('cpf').touched" class="form-text text-success" >ok</small>
+                    <small *ngIf="!form.get('cpf').valid && form.get('cpf').touched"class="form-text text-danger" >CPF inválido</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Nome: </label>
+                <div class="col-10">
+                    <input class="form-control" placeholder="Nome" formControlName="nome">
+                    <small *ngIf="form.get('nome').valid && form.get('nome').touched" class="form-text text-success" >ok</small>
+                    <small *ngIf="!form.get('nome').valid && form.get('nome').touched"class="form-text text-danger" >Campo nome requerido</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-2 col-form-label">E-mail: </label>
+                <div class="col-10">
+                    <input class="form-control" type="email" placeholder="E-mail" formControlName="email">
+                    <small *ngIf="form.get('email').valid && form.get('email').touched" class="form-text text-success" >ok</small>
+                    <small *ngIf="!form.get('email').valid && form.get('email').touched"class="form-text text-danger" >E-mail inválido</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Login: </label>
+                <div class="col-10">
+                    <input class="form-control" placeholder="Login" formControlName="login">
+                    <small *ngIf="form.get('login').valid && form.get('login').touched" class="form-text text-success" >ok</small>
+                    <small *ngIf="!form.get('login').valid && form.get('login').touched"class="form-text text-danger" >login requirido</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Perfil: </label>
+                <div class="col-10">
+                    <select
+                        class="custom-select"
+                        placeholder="Perfil"
+                        formControlName="perfil"
+                        [(value)]="perfil_id"
+                        #perfilId
+                        (change)="perfilSelecionado(perfilId.value)">
+                            <option *ngFor="let perfil of perfils" [value]="perfil.id">
+                            {{ perfil.nome }}
+                            </option>
+                    </select>
+                    <small *ngIf="form.get('perfil').valid && form.get('perfil').touched" class="form-text text-success" >ok</small>
+                    <small *ngIf="!form.get('perfil').valid && form.get('perfil').touched"class="form-text text-danger" >Perfil não selecionado</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Nova senha: </label>
+                <div class="col-9">
+                    <input class="form-control" [type]="hide ? 'password' : 'text'" placeholder="Senha" formControlName="senha">
+                    <small *ngIf="form.get('senha').valid && form.get('senha').touched" class="form-text text-success" >ok</small>
+                    <small *ngIf="!form.get('senha').valid && form.get('senha').touched"class="form-text text-danger" >Senha deve conter no minimo 6 caracteres</small>
+                </div>
+                <div class="col-1">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <button mat-raised-button color="primary"
+            (click)="atualizar()">
+            Atualizar
+            </button>
+            &nbsp;
+            <a mat-button color="primary" routerLink="/usuario/pesquisar">
+                Voltar
+            </a>
+        </form>
+    </div>
+</div>

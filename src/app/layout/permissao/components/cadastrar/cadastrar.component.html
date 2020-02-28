@@ -1,0 +1,62 @@
+<app-page-header [heading]="'Permissão'" [icon]="'fa-lock'"></app-page-header>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <p>Formulário de Cadastro de Permissao</p>
+    </div>
+    <div class="card-body">
+        <mat-card>
+            <mat-card-content>
+                <h2 class="example-h2">Perfils</h2>
+                <mat-radio-group
+                    aria-labelledby="example-radio-group-label"
+                    class="radio-group-permissao">
+                    <mat-radio-button
+                        class="radio-button-permissao"
+                        *ngFor="let perfil of perfils"
+                        [value]="perfil.id"
+                        #perfilId
+                        (click)="perfilSelecionado(perfilId.value)"
+                    >
+                        {{ perfil.nome }}
+                    </mat-radio-button>
+                </mat-radio-group>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card>
+            <mat-card-content>
+                <h2 class="h2-checkbox">Permissões disponíveis para o perfil selecionado</h2>
+                    <section class="section-checkbox" *ngIf="perfilSelecionadoTrue">
+                        <mat-checkbox
+                            class="margin-checkbox"
+                            *ngFor="let permissao of permissoes"
+                            [value]="permissao.id"
+                            #permissaoId
+                            (click)="checkBoxSelecionado(permissaoId.value)"
+                            >
+
+                            {{ permissao.descricao }}
+                        </mat-checkbox>
+                    </section>
+
+                    <p *ngIf="perfilSelecionadoTrue === false">Nenhum perfil selecionado ainda</p>
+                    <p *ngIf="permissoes?.length === 0">Todas as pemissoes já estão cadastradas para este perfil</p>
+            </mat-card-content>
+        </mat-card>
+        <br>
+
+        <button mat-raised-button color="primary"
+        (click)="cadastrar()">
+        Cadastrar
+        </button>
+        &nbsp;
+        <a mat-button color="primary" routerLink="/permissao/pesquisar">
+            Voltar
+        </a>
+
+    </div>
+
+
+</div>
+

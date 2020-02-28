@@ -1,6 +1,5 @@
-export interface Permissao {
+export class Permissao {
   id: number
   descricao: string
   url: string
-  perfmissao_pai_id: number
 }

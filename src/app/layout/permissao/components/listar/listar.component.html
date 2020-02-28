@@ -1,0 +1,77 @@
+<app-page-header [heading]="'Permissão'" [icon]="'fa-lock'"></app-page-header>
+<div class="card mb-3">
+    <div class="card-header">
+        <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            #termoPesquisa
+            (keyup)="pesquisa(termoPesquisa.value)"
+        >
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th (click)="sort('permissao')">
+                        Permissão
+                        <span *ngIf="key =='permissao'">{{reverse ? '▲' : '▼'}}</span>
+                    </th>
+                    <th (click)="sort('url')">
+                        URL
+                        <span *ngIf="key =='url'">{{reverse ? '▲' : '▼'}}</span>
+                    </th>
+                    <th (click)="sort('perfil')">
+                        Perfil
+                        <span *ngIf="key =='perfil'">{{reverse ? '▲' : '▼'}}</span>
+                    </th>
+                    <th (click)="sort('status')">
+                        Status
+                        <span *ngIf="key =='status'">{{reverse ? '▲' : '▼'}}</span>
+                    </th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let permissaoDesc of perfilpermissaoFiltrados | slice: (advancedPagination-1) * 10 : (advancedPagination-1) * 10 + 10 | orderBy: key : reverse; let i = index">
+                    <td> {{ permissaoDesc.permissao_id.descricao }} </td>
+                    <td> {{ permissaoDesc.permissao_id.url }} </td>
+                    <td> {{ permissaoDesc.perfil_id.nome }} </td>
+                    <td> {{ permissaoDesc.status | perfilstatus }} </td>
+                    <td *ngIf="permissaoDesc.status === 1">
+                        <button
+                            class="btn btn-sm btn-outline-danger"
+                            [value]="permissaoDesc.id"
+                            #permissaoID
+                            (click)="perfilHasPermissaoButton(permissaoID.value)"
+                        >
+                            Desativar
+                        </button>
+                    </td>
+                    <td *ngIf="permissaoDesc.status === 0">
+                        <button
+                            [value]="permissaoDesc.id"
+                            #permissaoID
+                            (click)="perfilHasPermissaoButton(permissaoID.value)"
+                            class="btn btn-sm btn-outline-secondary"
+                        >
+                            Ativar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+        <ngb-pagination
+            *ngIf="totalDePermissoes"
+            [collectionSize]="totalDePermissoes"
+            [(page)]="advancedPagination"
+            [maxSize]="5"
+            [rotate]="true"
+            class="d-flex justify-content-end"
+            [ellipses]="false"
+            [boundaryLinks]="true">
+        </ngb-pagination>
+    </div>
+</div>

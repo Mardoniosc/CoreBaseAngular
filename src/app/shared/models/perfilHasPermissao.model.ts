@@ -3,7 +3,7 @@ import { Permissao } from './permissao.model'
 
 export interface PerfilHasPermissao {
   id: number
-  perfil: Perfil
-  permissao: Permissao
+  perfil_id: Perfil
+  permissao_id: Permissao
   status: number
 }

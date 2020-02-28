@@ -1,6 +1,22 @@
 # CoreBaseAngular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.21.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.2
+
+## Pre-requisitos
+
+instalados node >= 6
+npm >= 10
+angular-cli >= 8.0.2
+
+## Execução do projeto
+
+`git clone https://gitlab.com/tecnisys-dev/angular/core-base-angular.git`
+
+`cd core-base-angular/`
+
+`npm install`
+
+`ng serve`
 
 ## Development server
 

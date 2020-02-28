@@ -1,0 +1,60 @@
+<app-page-header [heading]="'Usuario'" [icon]="'fa-user'"></app-page-header>
+<div class="card mb-3">
+    <div class="card-header">
+        <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            #termoPesquisa
+            (keyup)="pesquisa(termoPesquisa.value)"
+        >
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-hover table-striped">
+            <thead>
+            <tr>
+                <th (click)="sort('nome')">
+                    Nome
+                    <span *ngIf="key =='nome'">{{reverse ? '▲' : '▼'}}</span>
+                </th>
+                <th (click)="sort('email')">
+                    E-mail
+                    <span *ngIf="key =='email'">{{reverse ? '▲' : '▼'}}</span>
+                </th>
+                <th (click)="sort('login')">
+                    Login
+                    <span *ngIf="key =='login'">{{reverse ? '▲' : '▼'}}</span>
+                </th>
+                <th>Ação</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of usuariosFiltrados | slice: (advancedPagination-1) * 10 : (advancedPagination-1) * 10 + 10 | orderBy: key : reverse; let i = index">
+                    <td>{{ user.nome }}</td>
+                    <td>{{ user.email }}</td>
+                    <td> {{ user.login }} </td>
+                    <td>
+                        <a routerLink="{{ '/usuario/atualizar/' + user.id }}">
+                            <i class="fa fa-pencil"></i>
+                        </a>&nbsp;&nbsp;
+                        <a (click)="removerDialog(user.id)"
+                        style="cursor: pointer">
+                        <i class="fa fa-close"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ngb-pagination
+            *ngIf="totalDeUsuarios"
+            [collectionSize]="totalDeUsuarios"
+            [(page)]="advancedPagination"
+            [maxSize]="5"
+            [rotate]="true"
+            class="d-flex justify-content-end"
+            [ellipses]="false"
+            [boundaryLinks]="true">
+        </ngb-pagination>
+    </div>
+</div>

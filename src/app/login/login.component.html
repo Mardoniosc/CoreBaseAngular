@@ -1,0 +1,22 @@
+<div class="login-page" [@routerTransition]>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <img src="assets/images/logo.png" width="150px" class="user-avatar" />
+            <h1>Core Base Angular</h1>
+            <form [formGroup]="form" novalidate>
+                <div class="form-content">
+                    <div class="form-group">
+                        <input type="text" formControlName="username" class="form-control input-underline input-lg" id="email" placeholder="Nome de usuário">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" formControlName="password" class="form-control input-underline input-lg" id="senha" placeholder="Senha">
+                    </div>
+                </div>
+                <a class="btn rounded-btn" (click)="logar()">Logar</a>
+                &nbsp;
+                <!-- <a class="btn rounded-btn">Cadastrar</a> -->
+            </form>
+        </div>
+    </div>
+</div>

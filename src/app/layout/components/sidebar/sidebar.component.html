@@ -1,0 +1,80 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
+    <div class="list-group">
+        <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-dashboard"></i>&nbsp;
+            <span>{{ 'Dashboard' | translate }}</span>
+        </a>
+        <div class="nested-menu" *ngIf="usuario">
+            <a class="list-group-item" (click)="abrirMenuUsuario('pageUsuario')">
+                <i class="fa fa-user-circle"></i>
+                <span>{{ 'Usuario'}}</span>
+            </a>
+            <li class="nested" [class.expand]="menuUsuario === 'pageUsuario'">
+                <ul class="submenu">
+                    <li *ngIf="usuario_pesquisar">
+                        <a [routerLink]="['/usuario/pesquisar']" [routerLinkActive]="['router-link-active']">
+                            <i class="fa fa-search"></i>&nbsp;
+                            <span>{{ 'Pesquisar'}}</span>
+                        </a>
+                    </li>
+                    <li *ngIf="usuario_cadastrar">
+                        <a [routerLink]="['/usuario/cadastrar']" [routerLinkActive]="['router-link-active']">
+                            <i class="fa fa-plus"></i>&nbsp;
+                            <span>{{ 'Cadastrar'}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+
+        <div class="nested-menu" *ngIf="perfil">
+            <a class="list-group-item" (click)="abrirMenuPerfil('pagePerfil')">
+                <i class="fa fa-users"></i>
+                <span>{{ 'Perfil'}}</span>
+            </a>
+            <li class="nested" [class.expand]="menuPerfil === 'pagePerfil'">
+                <ul class="submenu">
+                    <li *ngIf="perfil_pesquisar">
+                        <a [routerLink]="['/perfil/pesquisar']" [routerLinkActive]="['router-link-active']">
+                            <i class="fa fa-search"></i>&nbsp;
+                            <span>{{ 'Pesquisar'}}</span>
+                        </a>
+                    </li>
+                    <li *ngIf="perfil_cadastrar">
+                        <a [routerLink]="['/perfil/cadastrar']" [routerLinkActive]="['router-link-active']">
+                            <i class="fa fa-plus"></i>&nbsp;
+                            <span>{{ 'Cadastrar'}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+
+        <div class="nested-menu" *ngIf="permissao" >
+            <a class="list-group-item" (click)="abrirMenuPermissao('pagePermissao')">
+                <i class="fa fa-lock"></i>&nbsp;
+                <span>{{ 'Permissao'}}</span>
+            </a>
+            <li class="nested" [class.expand]="menuPermissao === 'pagePermissao'">
+                <ul class="submenu">
+                    <li *ngIf="permissao_pesquisar">
+                        <a [routerLink]="['/permissao/pesquisar']" [routerLinkActive]="['router-link-active']">
+                            <i class="fa fa-search"></i>&nbsp;
+                            <span>{{ 'Pesquisar'}}</span>
+                        </a>
+                    </li>
+                    <li *ngIf="permissao_cadastrar">
+                        <a [routerLink]="['/permissao/cadastrar']" [routerLinkActive]="['router-link-active']">
+                            <i class="fa fa-plus"></i>&nbsp;
+                            <span>{{ 'Cadastrar'}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+    </div>
+    <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="encolherBarradeMenu()">
+        <i class="fa fa-fw fa-angle-double-{{collapsed?'right':'left'}}"></i>&nbsp;
+        <span>Minimizar Menu</span>
+    </div>
+</nav>

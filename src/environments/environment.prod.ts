@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
-};
+    production: false,
+    baseURL: 'https://services.labtecnisys.com.br',
+    baseURL_API: 'https://core-base-api.herokuapp.com'
+
+  };

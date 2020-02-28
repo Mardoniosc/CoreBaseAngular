@@ -1,0 +1,38 @@
+<app-page-header [heading]="'Permissão'" [icon]="'fa-lock'"></app-page-header>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <p>Formulário de Atualização de Permissão</p>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="form" novalidate>
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Descrição: </label>
+                <div class="col-10 form-group has-success">
+                    <input class="form-control" placeholder="Descrição" formControlName="descricao">
+                    <small *ngIf="form.get('descricao').valid && form.get('descricao').touched" class="form-text text-success" >ok</small>
+                    <small *ngIf="!form.get('descricao').valid && form.get('descricao').touched"class="form-text text-danger" >campo inválido</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-2 col-form-label">URL: </label>
+                <div class="col-10">
+                    <input class="form-control" placeholder="URL" formControlName="url">
+                    <small *ngIf="form.get('url').valid && form.get('url').touched" class="form-text text-success" >ok</small>
+                    <small *ngIf="!form.get('url').valid && form.get('url').touched"class="form-text text-danger" >Campo url requerido</small>
+                </div>
+            </div>
+
+            <button mat-raised-button color="primary"
+            (click)="atualizar()">
+            Atualizar
+            </button>
+            &nbsp;
+            <a mat-button color="primary" routerLink="/permissao/pesquisar">
+                Voltar
+            </a>
+        </form>
+    </div>
+
+</div>
+

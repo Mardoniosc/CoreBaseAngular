@@ -1,0 +1,14 @@
+<app-page-header [heading]="'Perfil'" [icon]="'fa-users'"></app-page-header>
+<form [formGroup]="form" novalidate>
+    <input type="text" class="form-control" formControlName="nome" placeholder="Nome do perfil">
+    <br><br>
+    <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="atualizar()">
+        atualizar
+    </button>
+    &nbsp;
+    <a mat-button color="primary" routerLink="/perfil/pesquisar">
+        Voltar
+    </a>
+</form>
+
+
